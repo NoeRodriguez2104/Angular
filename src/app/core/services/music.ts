@@ -11,9 +11,9 @@ export interface Track { //define la forma de la canción
 @Injectable({ providedIn: 'root' })// Declaramos el servicio y lo va a registrar en el root injector
 export class MusicService {
   private _tracks = signal<Track[]>([ // lista de canciones
-    { id: '1', title: 'Neon Nights',    artist: 'Citywave', cover: 'https://picsum.photos/seed/a/400' },
-    { id: '2', title: 'Echoes',         artist: 'Aurelia',  cover: 'https://picsum.photos/seed/b/400' },
-    { id: '3', title: 'Midnight Drive', artist: 'Sinthex',  cover: 'https://picsum.photos/seed/c/400' },
+    { id: '1', title: 'Creep', artist: 'Radiohead', cover: 'https://picsum.photos/seed/a/400', previewUrl: 'src/assets/audio/Creep.mp3' },
+    { id: '2', title: 'Echoes',         artist: 'Aurelia',  cover: 'https://picsum.photos/seed/b/400', previewUrl: '/assets/audio/echoes.mp3' },
+    { id: '3', title: 'Midnight Drive', artist: 'Sinthex',  cover: 'https://picsum.photos/seed/c/400', previewUrl: '/assets/audio/midnight-drive.mp3' },
   ]);
 
   private _favs = signal<string[]>([]);// Lista de ids de las canciones

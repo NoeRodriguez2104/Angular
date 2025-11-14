@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from '../nav-bar/nav-bar';
 import { SideBarComponent } from '../side-bar/side-bar';
+import { PlayerComponent } from '../player/player';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, SideBarComponent],
+  imports: [RouterOutlet, NavBarComponent, SideBarComponent, PlayerComponent],
   templateUrl: './layout.html',
   styleUrls: ['./layout.css']
 })

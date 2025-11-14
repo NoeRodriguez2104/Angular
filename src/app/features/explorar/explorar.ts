@@ -1,9 +1,9 @@
-
  // Importamos los módulos y servicios necesarios
 import { Component, signal } from '@angular/core'; // señal reactiva de Angular
 import { CommonModule } from '@angular/common'; // Módulo común de Angular
 import { RouterLink } from '@angular/router'; // Para enlaces de navegación
 import { MusicService, Track } from '../../core/services/music'; //º Servicio de música y la interfaz Track
+import { PlayerService } from '../../core/services/player'; // Servicio del reproductor
 
 @Component({ // Definición del componente
   selector: 'app-explorar',// Nombre del selector
@@ -17,7 +17,7 @@ export class ExplorarComponent { // Definimos la clase del componente
   term = signal<string>('');       // texto del buscador
   results = signal<Track[]>([]);   // lista mostrada
 
-  constructor(public music: MusicService) { // Inyectamos el servicio de música
+  constructor(public music: MusicService, public player: PlayerService) { // Inyectamos los servicios
     this.results.set(this.music.tracks()); // carga inicial de canciones
   }
 
@@ -32,5 +32,9 @@ export class ExplorarComponent { // Definimos la clase del componente
 
   toggle(id: string) { //Llama al servicio para añadir o eliminar de favs
     this.music.toggleFav(id);
+  }
+
+  playTrack(track: Track) { // Reproduce una canción
+    this.player.play(track);
   }
 }

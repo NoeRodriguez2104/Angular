@@ -13,7 +13,8 @@
       <h3>{{ t.title }}</h3>
       <p>{{ t.artist }}</p>
       <div class="actions">
-        <button (click)="toggle(t.id)">{{ isFav(t.id) ? 'Quitar de favoritos' : 'Añadir a favoritos' }}</button>
+        <button (click)="playTrack(t)">▶ Reproducir</button>
+        <button (click)="toggle(t.id)">{{ isFav(t.id) ? '★' : '☆' }}</button>
         <a [routerLink]="['/cancion', t.id]">Detalle</a>
       </div>
     </article>
