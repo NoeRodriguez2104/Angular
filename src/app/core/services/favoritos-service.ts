@@ -1,104 +1,124 @@
-import { Injectable, signal } from '@angular/core';
+// IMPORTACIONES de Angular Core
+import { effect, Injectable, signal } from '@angular/core';
+// - effect: Reemplaza a los Subscribers de RxJS/Observables del Angular antiguo
+//          Ejecuta lado efecto cuando los signals cambian (reactividad automática)
+// - Injectable: Decorador que permite inyectar este servicio en otros componentes/servicios
+// - signal: Nueva forma de reactividad en Angular 17+, sustituye a BehaviorSubject
 
-// Tipos para favoritos
+// ============================================================================
+// INTERFAZ: Define la estructura de cada elemento de favoritos
+// ============================================================================
 export interface FavoritoItem {
+  // ID único del favorito (puede ser número o string)
   id: number | string;
+
+  // Nombre del artista, canción o álbum
   nombre: string;
+
+  // Tipo discriminador para saber qué tipo de favorito es
+  // Sustituye tener múltiples arrays separados como se hacía en Angular antiguo
   tipo: 'cancion' | 'artista' | 'album'; // Identificar qué tipo es
+
+  // URL de la imagen (opcional)
   imagen?: string;
+
+  // Nombre del artista (aplica para canciones y álbumes, opcional)
   artista?: string; // Para canciones y álbumes
+
+  // Fecha en que se agregó a favoritos (generada automáticamente)
   fechaAgregado?: Date;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+// ============================================================================
+// SERVICIO DE FAVORITOS
+// ============================================================================
+// @Injectable: Decorador que registra este servicio como "inyectable"
+// providedIn: 'root' - Usa Tree-shaking automático y singleton a nivel raíz
+//                      Sustituye la antigua forma de declararlos en NgModule
+@Injectable({ providedIn: 'root' })
 export class FavoritosService {
-  // Signal con lista de favoritos
+  // SIGNAL: Nueva primitiva de reactividad de Angular 17+ (sustituye BehaviorSubject)
+  // - Más eficiente que Observables
+  // - Reactividad granular (actualiza solo componentes que usan esta señal)
+  // - No necesita unsubscribe como Observables (previene memory leaks automáticamente)
+  // - Sintaxis más simple y clara que .subscribe()
   favoritos = signal<FavoritoItem[]>([]);
 
+  // CONSTRUCTOR: Se ejecuta cuando se crea la instancia del servicio
   constructor() {
+    // Cargar favoritos guardados en localStorage al inicializar
     this.cargarFavoritos();
+
+    // EFFECT: Reemplaza a los ".subscribe()" del Angular antiguo
+    // Se ejecuta automáticamente cada vez que favoritos() cambia
+    // Sustituye: subscription = this.favoritos.subscribe(data => {...})
+    // Ventaja: Se desuscribe automáticamente cuando el componente se destruye
+    effect(() => {
+      // Cada vez que favoritos cambia, guarda en localStorage automáticamente
+      localStorage.setItem(
+        'favoritos',
+        JSON.stringify(this.favoritos()), // Paréntesis () lee el valor actual del signal
+      );
+    });
   }
 
-  /**
-   * Cargar favoritos desde localStorage
-   */
+  // MÉTODO PRIVADO: Carga favoritos del localStorage en el constructor
   private cargarFavoritos(): void {
-    const favoritos = localStorage.getItem('favoritos');
-    if (favoritos) {
-      try {
-        this.favoritos.set(JSON.parse(favoritos));
-      } catch (error) {
-        console.error('Error al cargar favoritos:', error);
-      }
+    // Obtiene string JSON del localStorage
+    const guardados = localStorage.getItem('favoritos');
+
+    // Si existen datos guardados
+    if (guardados) {
+      // Convierte JSON string a array y lo asigna al signal
+      // Sustituye: this.favoritos.next(JSON.parse(guardados))
+      // Diferencia: signal.set() es más directo que BehaviorSubject.next()
+      this.favoritos.set(JSON.parse(guardados));
     }
   }
 
-  /**
-   * Guardar favoritos en localStorage
-   */
-  private guardarFavoritos(): void {
-    localStorage.setItem('favoritos', JSON.stringify(this.favoritos()));
-  }
-
-  /**
-   * Añadir un elemento a favoritos
-   */
+  // MÉTODO PÚBLICO: Agrega un nuevo favorito a la lista
   agregarFavorito(item: FavoritoItem): void {
-    const favoritos = this.favoritos();
-    // Verificar si ya existe
-    if (!this.existeFavorito(item.id, item.tipo)) {
-      item.fechaAgregado = new Date();
-      this.favoritos.set([...favoritos, item]);
-      this.guardarFavoritos();
-      console.log(`${item.nombre} añadido a favoritos`);
-    }
+    // Verifica si el favorito ya existe (evita duplicados)
+    // Sustituye la lógica manual que se hacía con .some() en observables
+    if (this.existeFavorito(item.id, item.tipo)) return;
+
+    // SIGNAL UPDATE: Actualiza el array de manera funcional e inmutable
+    // Sustituye: this.favoritos.next([...this.favoritos.value, newItem])
+    // update() toma el valor actual y retorna el nuevo valor
+    this.favoritos.update((list) => [
+      ...list, // Propagar todos los items existentes (inmutabilidad)
+      {
+        ...item,
+        fechaAgregado: new Date(), // Agrega automáticamente la fecha actual
+      },
+    ]);
   }
 
-  /**
-   * Eliminar un elemento de favoritos
-   */
+  // MÉTODO PÚBLICO: Elimina un favorito de la lista
   eliminarFavorito(id: number | string, tipo: string): void {
-    const favoritos = this.favoritos().filter((fav) => !(fav.id === id && fav.tipo === tipo));
-    this.favoritos.set(favoritos);
-    this.guardarFavoritos();
-    console.log(`Favorito eliminado`);
+    // update() filtra eliminando solo el item que coincida con id y tipo
+    // Sustituye la lógica con .pipe(map(list => list.filter(...)))
+    this.favoritos.update((list) =>
+      // Filtra manteniendo solo los items que NO coincidan con id y tipo
+      list.filter((f) => !(f.id === id && f.tipo === tipo)),
+    );
   }
 
-  /**
-   * Verificar si un elemento ya es favorito
-   */
-  existeFavorito(id: number | string, tipo: string): boolean {
-    return this.favoritos().some((fav) => fav.id === id && fav.tipo === tipo);
-  }
-
-  /**
-   * Obtener solo canciones de favoritos
-   */
-  obtenerCancionessFav(): FavoritoItem[] {
-    return this.favoritos().filter((fav) => fav.tipo === 'cancion');
-  }
-
-  /**
-   * Obtener solo artistas de favoritos
-   */
-  obtenerArtistasFav(): FavoritoItem[] {
-    return this.favoritos().filter((fav) => fav.tipo === 'artista');
-  }
-
-  /**
-   * Obtener solo álbumes de favoritos
-   */
-  obtenerAlbumesFav(): FavoritoItem[] {
-    return this.favoritos().filter((fav) => fav.tipo === 'album');
-  }
-
-  /**
-   * Limpiar todos los favoritos
-   */
+  // MÉTODO PÚBLICO: Limpia todos los favoritos
   limpiarFavoritos(): void {
+    // Asigna array vacío al signal
+    // Sustituye: this.favoritos.next([])
     this.favoritos.set([]);
+
+    // También elimina del localStorage
     localStorage.removeItem('favoritos');
+  }
+
+  // MÉTODO PÚBLICO: Verifica si un favorito ya existe
+  existeFavorito(id: number | string, tipo: string): boolean {
+    // Devuelve true si encuentra un item con ese id y tipo
+    // this.favoritos() obtiene el array actual del signal
+    // .some() itera hasta encontrar una coincidencia
+    return this.favoritos().some((f) => f.id === id && f.tipo === tipo);
   }
 }
