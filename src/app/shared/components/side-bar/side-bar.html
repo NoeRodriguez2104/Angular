@@ -31,12 +31,12 @@
   </div>
 
   <div class="item" (mouseenter)="onMouseEnterFavoritos()" (mouseleave)="onMouseLeaveFavoritos()">
-    <span class="icon">❤️</span>
+    <span class="icon"></span>
     <span class="label">Favoritos</span>
 
     @if (isFavoritosMenuOpen) {
       <div class="submenu">
-        <button routerLink="/perfil/favoritos">Mis Favoritos</button>
+        <button routerLink="/favoritos">Mis Favoritos</button>
       </div>
     }
   </div>

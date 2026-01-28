@@ -1,4 +1,4 @@
-import { Component, OnInit, effect } from '@angular/core';
+import { Component, computed, signal, inject } from '@angular/core';
 import { FavoritosService, FavoritoItem } from '../../../core/services/favoritos-service';
 
 @Component({
@@ -8,44 +8,40 @@ import { FavoritosService, FavoritoItem } from '../../../core/services/favoritos
   templateUrl: './favoritos.html',
   styleUrl: './favoritos.css',
 })
-export class FavoritosComponent implements OnInit {
-  filtroActivo: 'todos' | 'canciones' | 'artistas' | 'albumes' = 'todos';
-  favoritos: FavoritoItem[] = [];
-  favoritosFiltrados: FavoritoItem[] = [];
+export class FavoritosComponent {
+  private favService = inject(FavoritosService);
 
-  constructor(private favService: FavoritosService) {
-    // Usar effect para observar cambios en el Signal
-    effect(() => {
-      this.favoritos = this.favService.favoritos();
-      this.aplicarFiltro();
-    });
-  }
+  filtroActivo = signal<'todos' | 'canciones' | 'artistas' | 'albumes'>('todos');
 
-  ngOnInit(): void {
-    // Cargar favoritos iniciales
-    this.favoritos = this.favService.favoritos();
-    this.aplicarFiltro();
-  }
+  favoritos = this.favService.favoritos;
+
+  favoritosFiltrados = computed(() => {
+    const filtro = this.filtroActivo();
+    const todos = this.favoritos();
+
+    switch (filtro) {
+      case 'canciones':
+        return todos.filter((f) => f.tipo === 'cancion');
+      case 'artistas':
+        return todos.filter((f) => f.tipo === 'artista');
+      case 'albumes':
+        return todos.filter((f) => f.tipo === 'album');
+      default:
+        return todos;
+    }
+  });
+
+  obtenerConteo = computed(() => {
+    const todos = this.favoritos();
+    return {
+      canciones: todos.filter((f) => f.tipo === 'cancion').length,
+      artistas: todos.filter((f) => f.tipo === 'artista').length,
+      albumes: todos.filter((f) => f.tipo === 'album').length,
+    };
+  });
 
   setFiltro(filtro: 'todos' | 'canciones' | 'artistas' | 'albumes'): void {
-    this.filtroActivo = filtro;
-    this.aplicarFiltro();
-  }
-
-  aplicarFiltro(): void {
-    switch (this.filtroActivo) {
-      case 'canciones':
-        this.favoritosFiltrados = this.favService.obtenerCancionessFav();
-        break;
-      case 'artistas':
-        this.favoritosFiltrados = this.favService.obtenerArtistasFav();
-        break;
-      case 'albumes':
-        this.favoritosFiltrados = this.favService.obtenerAlbumesFav();
-        break;
-      default:
-        this.favoritosFiltrados = this.favoritos;
-    }
+    this.filtroActivo.set(filtro);
   }
 
   eliminarFavorito(item: FavoritoItem): void {
@@ -67,15 +63,7 @@ export class FavoritosComponent implements OnInit {
       case 'album':
         return '💿';
       default:
-        return '⭐';
+        return '❓';
     }
-  }
-
-  obtenerConteo(): { canciones: number; artistas: number; albumes: number } {
-    return {
-      canciones: this.favService.obtenerCancionessFav().length,
-      artistas: this.favService.obtenerArtistasFav().length,
-      albumes: this.favService.obtenerAlbumesFav().length,
-    };
   }
 }

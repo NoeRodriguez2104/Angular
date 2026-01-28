@@ -1,7 +1,7 @@
 <div class="favoritos-container">
   <div class="header-favoritos">
     <h2>Mis Favoritos</h2>
-    <p class="total-favoritos">Total: {{ favoritos.length }} elementos</p>
+    <p class="total-favoritos">Total: {{ favoritos().length }} elementos</p>
   </div>
 
   <!-- Estadísticas -->
@@ -27,28 +27,28 @@
   <div class="filtros">
     <button
       (click)="setFiltro('todos')"
-      [class.activo]="filtroActivo === 'todos'"
+      [class.activo]="filtroActivo() === 'todos'"
       class="btn-filtro"
     >
       Todos
     </button>
     <button
       (click)="setFiltro('canciones')"
-      [class.activo]="filtroActivo === 'canciones'"
+      [class.activo]="filtroActivo() === 'canciones'"
       class="btn-filtro"
     >
       Canciones
     </button>
     <button
       (click)="setFiltro('artistas')"
-      [class.activo]="filtroActivo === 'artistas'"
+      [class.activo]="filtroActivo() === 'artistas'"
       class="btn-filtro"
     >
       Artistas
     </button>
     <button
       (click)="setFiltro('albumes')"
-      [class.activo]="filtroActivo === 'albumes'"
+      [class.activo]="filtroActivo() === 'albumes'"
       class="btn-filtro"
     >
       Álbumes
@@ -56,9 +56,9 @@
   </div>
 
   <!-- Lista de favoritos -->
-  @if (favoritosFiltrados.length > 0) {
+  @if (favoritosFiltrados().length > 0) {
     <div class="lista-favoritos">
-      @for (item of favoritosFiltrados; track item.id; let i = $index) {
+      @for (item of favoritosFiltrados(); track item.id; let i = $index) {
         <div class="favorito-item">
           <div class="item-numero">{{ i + 1 }}</div>
 
@@ -78,10 +78,10 @@
             <p class="item-tipo">
               {{
                 item.tipo === 'cancion'
-                  ? ' Canción'
+                  ? '🎵 Canción'
                   : item.tipo === 'artista'
-                    ? ' Artista'
-                    : ' Álbum'
+                    ? '🎤 Artista'
+                    : '💿 Álbum'
               }}
             </p>
           </div>
@@ -108,7 +108,7 @@
   }
 
   <!-- Botón de limpiar -->
-  @if (favoritos.length > 0) {
+  @if (favoritos().length > 0) {
     <div class="acciones-finales">
       <button (click)="limpiarTodos()" class="btn-limpiar">Limpiar todos los favoritos</button>
     </div>
