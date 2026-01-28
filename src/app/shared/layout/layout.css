@@ -1,18 +1,61 @@
+/* Layout principal con CSS Grid */
 .layout {
-  display: flex;
-  height: 100vh;
-  background-color: var(--background-dark);
-  color: var(--text-light);
+  /* Grid con 2 columnas: sidebar (auto) + contenido principal (resto del espacio) */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  /* Altura completa de la ventana menos la navbar */
+  height: calc(100vh - var(--header-h));
+  background-color: var(--bg);
+  color: var(--text);
+  /* Espacio entre sidebar y contenido */
+  gap: 0;
+  /* Posicionar debajo del navbar */
+  margin-top: var(--header-h);
 }
 
-.main-content {
-  flex-grow: 1;
+/* Contenido principal de la página */
+.page {
+  /* Ocupa todo el espacio disponible */
+  width: 100%;
+  /* Padding interno para contenido */
   padding: 2rem;
-  margin-left: 240px; /* ancho del sidebar */
+  /* Scroll vertical si el contenido es largo */
   overflow-y: auto;
+  /* Scroll horizontal oculto */
+  overflow-x: hidden;
 }
 
-app-library {
-  width: 240px;
-  flex-shrink: 0;
+/* ========================================
+   RESPONSIVE: Tablets (768px - 1024px)
+======================================== */
+@media (max-width: 1024px) {
+  .page {
+    /* Reducir padding en tablets */
+    padding: 1.5rem;
+  }
+}
+
+/* ========================================
+   RESPONSIVE: Móviles (hasta 768px)
+======================================== */
+@media (max-width: 768px) {
+  .layout {
+    /* En móvil, 1 columna: sidebar se oculta o se superpone */
+    grid-template-columns: 1fr;
+  }
+
+  .page {
+    /* Padding más pequeño en móviles */
+    padding: 1rem;
+  }
+}
+
+/* ========================================
+   RESPONSIVE: Móviles pequeños (hasta 480px)
+======================================== */
+@media (max-width: 480px) {
+  .page {
+    /* Padding mínimo en móviles pequeños */
+    padding: 0.75rem;
+  }
 }

@@ -1,8 +1,11 @@
-<h2>Canciones</h2>
+<!-- Título de la sección -->
+<h2 class="title">Canciones</h2>
 
+<!-- Grid mosaico de canciones -->
 <div class="track-list">
+  <!-- Iteramos sobre cada canción del array -->
   @for (t of tracks(); track t.trackId) {
-  <app-track-card [track]="t"> </app-track-card>
-
+    <!-- Componente track-card renderiza cada canción -->
+    <app-track-card [track]="t"></app-track-card>
   }
 </div>

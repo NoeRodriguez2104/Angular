@@ -19,12 +19,28 @@
   background: #282828;
 }
 
+/* HEADER CON IMAGEN */
+.album-header {
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
 /* IMAGEN DE LA TARJETA */
-.album-card img {
+.album-header img {
   width: 100%;
   height: auto;
   object-fit: cover;
   border-radius: 6px;
+}
+
+/* INFO CON TÍTULO Y BOTÓN */
+.album-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* TÍTULO */
@@ -41,4 +57,9 @@
   font-size: 12px;
   margin: 0;
   color: #b3b3b3;
+}
+
+/* BOTÓN DE FAVORITO */
+.album-info app-favorito-btn {
+  align-self: flex-start;
 }

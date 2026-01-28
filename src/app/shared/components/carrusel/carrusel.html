@@ -1,15 +1,29 @@
+<!-- Contenedor principal del carrusel -->
 <div class="carrusel">
+  <!-- Botón para ir a la página anterior -->
   <button (click)="prev()">⟨</button>
 
+  <!-- Contenedor de items visibles -->
   <div class="row">
-    @for (item of visibleItems(); track $index) { @if (type() === 'album') {
-    <app-album [album]="item"></app-album>
-    }@if (type() === 'track') {
-    <app-track-card [track]="item"></app-track-card>
-    } @if (type() === 'artist') {
-    <app-artist-card [artist]="item"></app-artist-card>
-    } }
+    <!-- Iteramos sobre los items visibles en la página actual -->
+    @for (item of visibleItems(); track $index) {
+      <!-- Mostrar álbum si el tipo es "album" -->
+      @if (type() === 'album') {
+        <app-album [album]="item"></app-album>
+      }
+
+      <!-- Mostrar canción si el tipo es "track" -->
+      @if (type() === 'track') {
+        <app-track-card [track]="item"></app-track-card>
+      }
+
+      <!-- Mostrar artista si el tipo es "artist" (con su imagen obtenida de iTunes) -->
+      @if (type() === 'artist') {
+        <app-artist-card [artist]="item"></app-artist-card>
+      }
+    }
   </div>
 
+  <!-- Botón para ir a la página siguiente -->
   <button (click)="next()">⟩</button>
 </div>

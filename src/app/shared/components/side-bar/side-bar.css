@@ -1,25 +1,42 @@
+/* =========================================
+   SIDEBAR - Host element
+========================================= */
 :host {
   display: block;
+  /* Sin position fixed - funciona con grid del layout */
+  height: 100%;
 }
 
-/* Barra cerrada */
+/* =========================================
+   SIDEBAR - Estado cerrado (default)
+========================================= */
 .sidebar {
-  width: 72px;
+  /* Usa variable CSS para ancho */
+  width: var(--sb-collapsed);
   height: 100%;
   background: #141414;
   padding: 16px 8px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 16px;
-  transition: width 0.25s ease;
+  /* Transición suave al expandir */
+  transition: width 0.5s ease;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-:host(.expanded) .sidebar {/* cuando el host tiene la clase expanded el sidebar se vuelve ancho*/
-  width: 220px;
+/* =========================================
+   SIDEBAR - Estado expandido (hover)
+========================================= */
+:host(.expanded) .sidebar {
+  /* Cuando el host tiene clase .expanded */
+  width: var(--sb-expanded);
 }
 
+/* =========================================
+   ITEMS DEL SIDEBAR
+========================================= */
 .item {
   display: flex;
   align-items: center;
@@ -28,25 +45,32 @@
   border-radius: 8px;
   color: #fff;
   cursor: pointer;
-  white-space: nowrap;
 }
 
 .icon {
   font-size: 20px;
-    text-shadow: 0 0 8px var(--accent);
-    color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+  color: var(--accent);
+  /* Icono siempre visible */
+  flex-shrink: 0;
 }
 
 .label {
+  /* Texto oculto por defecto */
   opacity: 0;
   transition: opacity 0.2s ease;
   text-shadow: 0 0 8px var(--accent);
   color: var(--accent);
 }
 
-:host(.expanded) .label { /*si está ecpandido mostramos el texto*/
+:host(.expanded) .label {
+  /* Mostrar texto cuando está expandido */
   opacity: 1;
 }
+
+/* =========================================
+   SUBMENU
+========================================= */
 .submenu {
   margin-left: 20px;
   padding-left: 10px;
@@ -62,15 +86,87 @@
   color: #fff;
   opacity: 0.75;
   cursor: pointer;
-  transition: opacity 0.2s ease, padding-left 0.2s ease;
+  transition:
+    opacity 0.2s ease,
+    padding-left 0.2s ease;
 }
 
-button{
+button {
   background-color: #141414;
-    text-shadow: 0 0 8px var(--accent);
-    color: var(--accent);
+  text-shadow: 0 0 8px var(--accent);
+  color: var(--accent);
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-3px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   RESPONSIVE: MÓVILES (hasta 768px)
+========================================= */
+@media (max-width: 768px) {
+  :host {
+    /* En móviles, sidebar con position fixed superpuesta */
+    position: fixed;
+    left: 0;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    z-index: 900;
+    /* Sidebar oculta por defecto en móviles */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  :host(.expanded) {
+    /* Mostrar al expandir */
+    transform: translateX(0%);
+  }
+
+  .sidebar {
+    /* Ancho completo o fijo en móvil */
+    width: var(--sb-expanded);
+    /* Sombra para destacar sobre el contenido */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.5);
+  }
+
+  .item {
+    /* Items más pequeños */
+    padding: 8px;
+    gap: 10px;
+  }
+
+  .icon {
+    font-size: 18px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: MÓVILES PEQUEÑOS (hasta 480px)
+========================================= */
+@media (max-width: 480px) {
+  .sidebar {
+    /* Reducir ancho en móviles pequeños */
+    width: calc(var(--sb-expanded) - 30px);
+    padding: 12px 6px;
+  }
+
+  .item {
+    padding: 6px;
+    gap: 8px;
+  }
+
+  .icon {
+    font-size: 16px;
+  }
+
+  .submenu-item {
+    font-size: 12px;
+  }
 }

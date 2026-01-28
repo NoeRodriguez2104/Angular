@@ -1,0 +1,274 @@
+/* Contenedor principal */
+.favoritos-container {
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 100%);
+  border-radius: 12px;
+  max-width: 1000px;
+}
+
+/* Header */
+.header-favoritos {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header-favoritos h2 {
+  font-size: 2rem;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.total-favoritos {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Estadísticas */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-item {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #e91e63;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #999;
+  text-transform: uppercase;
+}
+
+/* Botones de filtro */
+.filtros {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-filtro {
+  padding: 0.7rem 1.5rem;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #666;
+}
+
+.btn-filtro:hover {
+  border-color: #e91e63;
+  color: #e91e63;
+}
+
+.btn-filtro.activo {
+  background: #e91e63;
+  border-color: #e91e63;
+  color: white;
+}
+
+/* Lista de favoritos */
+.lista-favoritos {
+  display: grid;
+  gap: 1rem;
+}
+
+.favorito-item {
+  display: grid;
+  grid-template-columns: 40px 80px 1fr 50px;
+  gap: 1.5rem;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  border-left: 4px solid #e91e63;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.favorito-item:hover {
+  box-shadow: 0 4px 12px rgba(233, 30, 99, 0.15);
+  transform: translateX(5px);
+}
+
+/* Número del item */
+.item-numero {
+  font-weight: bold;
+  color: #e91e63;
+  font-size: 1.2rem;
+}
+
+/* Imagen */
+.item-imagen {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.item-imagen.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 2rem;
+}
+
+/* Información */
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.item-nombre {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.item-artista {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #999;
+}
+
+.item-tipo {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #e91e63;
+  font-weight: 500;
+}
+
+/* Botón eliminar */
+.btn-eliminar {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #fee;
+  color: #e91e63;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-eliminar:hover {
+  background: #e91e63;
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Estado vacío */
+.estado-vacio {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: white;
+  border-radius: 8px;
+}
+
+.icono-vacio {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.estado-vacio h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.estado-vacio p {
+  color: #999;
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.hint {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 1rem !important;
+}
+
+/* Acciones finales */
+.acciones-finales {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-limpiar {
+  padding: 0.8rem 2rem;
+  background: #fee;
+  color: #e91e63;
+  border: 2px solid #e91e63;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-limpiar:hover {
+  background: #e91e63;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .favorito-item {
+    grid-template-columns: 30px 60px 1fr 40px;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .item-imagen {
+    width: 60px;
+    height: 60px;
+  }
+
+  .item-nombre {
+    font-size: 0.9rem;
+  }
+
+  .filtros {
+    gap: 0.5rem;
+  }
+
+  .btn-filtro {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

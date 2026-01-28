@@ -1,6 +1,7 @@
 /* CONTENEDOR GENERAL DE LA TARJETA */
 .album-card {
-  width: 160px;
+  /* Ancho flexible para adaptarse al carrusel */
+  width: 100%;
   padding: 12px;
   border-radius: 10px;
   background: #181818;
@@ -11,6 +12,10 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  /* Transición suave para hover */
+  transition:
+    transform 0.2s,
+    background 0.3s;
 }
 
 /* HOVER PROFESIONAL */

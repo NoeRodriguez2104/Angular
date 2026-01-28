@@ -1,10 +1,14 @@
 .track-card {
-  width: 160px;
+  display: flex;
+  flex-direction: column;
   padding: 12px;
   border-radius: 10px;
   background: #181818;
   cursor: pointer;
-  transition: background 0.3s;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+  height: 100%;
 }
 
 .track-card:hover {
@@ -19,6 +23,7 @@
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 12px;
+  cursor: pointer;
 }
 
 .artwork-container img {
@@ -27,11 +32,49 @@
   object-fit: cover;
 }
 
-/* Botón centrado  */
-.play-btn {
+/* Info de la canción */
+.track-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Texto */
+.track-card h3 {
+  margin: 0;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.95rem;
+}
+
+.track-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #bbb;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botón play (centrado sobre imagen) */
+.actions {
   position: absolute;
   inset: 0;
-  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.artwork-container:hover .actions {
+  opacity: 1;
+}
+
+/* Botón de play */
+.play-btn {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -42,36 +85,31 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    transform 0.3s,
+    background 0.3s;
 }
 
-.artwork-container:hover .play-btn {
-  opacity: 1;
-  transform: scale(1.05);
+.play-btn:hover {
+  background: #1ed760;
+  transform: scale(1.1);
 }
 
-/* SVG */
 .play-btn svg {
   width: 24px;
   height: 24px;
   fill: currentColor;
 }
 
-/* Texto */
-.track-card h3 {
-  margin: 0;
-  font-weight: bold;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* Botón de favorito */
+.track-info app-favorito-btn {
+  margin-top: 0.5rem;
+}
+  fill: currentColor;
 }
 
-.track-card p {
-  margin-top: 4px;
-  font-size: 14px;
-  color: #bbb;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+/* Botón de favorito */
+.track-info app-favorito-btn {
+  align-self: flex-start;
+  margin-top: 0.3rem;
 }

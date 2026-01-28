@@ -22,11 +22,28 @@ export class SideBarComponent {
   }
 
   isSearchMenuOpen = false;
+  isFavoritosMenuOpen = false;
+  isPerfilMenuOpen = false;
+
   onMouseEnterSearch() {
     this.isSearchMenuOpen = true;
   }
   onMouseLeaveSearch() {
     this.isSearchMenuOpen = false;
+  }
+
+  onMouseEnterFavoritos() {
+    this.isFavoritosMenuOpen = true;
+  }
+  onMouseLeaveFavoritos() {
+    this.isFavoritosMenuOpen = false;
+  }
+
+  onMouseEnterPerfil() {
+    this.isPerfilMenuOpen = true;
+  }
+  onMouseLeavePerfil() {
+    this.isPerfilMenuOpen = false;
   }
   @HostBinding('class.expanded')
   get isExpanded() {

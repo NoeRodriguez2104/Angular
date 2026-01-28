@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Track } from '../../../core/services/music-service';
 import { RouterLink } from '@angular/router';
 import { AudioService } from '../../../core/services/audio-service';
+import { FavoritoBtnComponent } from '../favorito-btn/favorito-btn';
 
 @Component({
   selector: 'app-track-card',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, FavoritoBtnComponent],
   templateUrl: './track-card.html',
   styleUrls: ['./track-card.css'],
 })

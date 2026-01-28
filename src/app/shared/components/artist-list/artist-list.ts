@@ -10,13 +10,18 @@ import { CarruselComponent } from '../carrusel/carrusel';
   templateUrl: './artist-list.html',
 })
 export class ArtistListComponent implements OnInit {
+  // Inyectamos el servicio de música para acceder a los datos de artistas
   music = inject(MusicService);
 
+  // Accedemos a la señal de artistas del servicio (contiene los artistas con sus imágenes)
   artists = this.music.artists;
 
-  query = 'a'; // búsqueda amplia para obtener muchos resultados
+  // Término de búsqueda amplio para obtener muchos resultados de artistas populares
+  query = 'a';
 
+  // Al inicializar el componente, buscamos los artistas
   ngOnInit() {
+    // Llamamos a searchArtists que internamente obtiene las imágenes de cada artista
     this.music.searchArtists(this.query);
   }
 }

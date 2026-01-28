@@ -1,8 +1,25 @@
 @if (artist()) {
+  <!-- Contenedor principal de la tarjeta del artista -->
+  <div class="artist-card">
+    <!-- Mostrar la imagen del artista si existe -->
+    @if (artist().image) {
+      <!-- Imagen circular del artista obtenida desde iTunes -->
+      <img [src]="artist().image" [alt]="artist().artistName" class="photo" />
+    }
 
-<div class="artist-card">
-  <h3>{{ artist().artistName }}</h3>
-  <p>{{ artist().primaryGenreName }}</p>
-</div>
+    <!-- Nombre del artista -->
+    <h3>{{ artist().artistName }}</h3>
 
+    <!-- Género musical principal del artista -->
+    <p>{{ artist().primaryGenreName }}</p>
+
+    <!-- Botón de favorito -->
+    <app-favorito-btn
+      (click)="$event.stopPropagation()"
+      [id]="artist().artistId"
+      [nombre]="artist().artistName"
+      [tipo]="'artista'"
+      [imagen]="artist().image || undefined"
+    ></app-favorito-btn>
+  </div>
 }

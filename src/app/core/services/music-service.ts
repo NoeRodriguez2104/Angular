@@ -67,27 +67,40 @@ export class MusicService {
   }
 
   loadHomeArtists(limit = 24) {
+    // URL de búsqueda con término general 'a' para obtener artistas populares
     const url = `https://itunes.apple.com/search?term=a&entity=musicArtist&limit=${limit}`;
+
+    // Hacemos la petición HTTP GET
     this.http.get<any>(url).subscribe((resp) => {
+      // Convertimos la respuesta a un array de artistas
       const rawArtists = resp.results as Artist[];
 
-      // Añadir imagen real usando una canción del artista
+      // Iteramos sobre cada artista para obtener su imagen
       rawArtists.forEach((artist) => {
+        // Llamamos a getArtistImage para buscar una canción del artista y extraer su imagen
         this.getArtistImage(artist.artistName).subscribe((img) => {
+          // Guardamos la URL de la imagen en la propiedad 'image' del artista
           artist.image = img;
-          this.homeArtists.set([...rawArtists]); // actualiza señal del home
+          // Actualizamos la señal homeArtists con los artistas modificados
+          this.homeArtists.set([...rawArtists]);
         });
       });
     });
   }
 
   // OBTENER IMAGEN REAL DE ARTISTAS DESDE CANCIONES
+  // iTunes no proporciona imagen del artista directamente, así que buscamos su canción más popular
   getArtistImage(artistName: string): Observable<string | null> {
+    // Codificamos el nombre del artista para la URL
     const url = `https://itunes.apple.com/search?term=${encodeURIComponent(
-      artistName
+      artistName,
     )}&entity=song&limit=1`;
 
-    return this.http.get<any>(url).pipe(map((resp) => resp.results?.[0]?.artworkUrl100 ?? null));
+    // Hacemos la petición HTTP y extraemos la imagen de la canción (que tiene el arte del álbum)
+    return this.http.get<any>(url).pipe(
+      // map transforma la respuesta en solo la URL de la imagen o null si no existe
+      map((resp) => resp.results?.[0]?.artworkUrl100 ?? null),
+    );
   }
 
   // BÚSQUEDAS DINÁMICAS
@@ -107,16 +120,23 @@ export class MusicService {
   }
 
   searchArtists(query: string, limit = 24) {
+    // URL de búsqueda en iTunes para artistas musicales
     const url = `https://itunes.apple.com/search?term=${query}&entity=musicArtist&limit=${limit}`;
 
+    // Hacemos la petición HTTP GET
     this.http.get<any>(url).subscribe((resp) => {
+      // Convertimos la respuesta a un array de artistas
       const rawArtists = resp.results as Artist[];
 
-      // Añadir imagen real desde canciones
+      // Para cada artista, obtenemos su imagen desde sus canciones
+      // Hacemos esto porque iTunes no proporciona imagen del perfil del artista directamente
       rawArtists.forEach((artist) => {
+        // Llamamos a getArtistImage para buscar la canción más popular del artista
         this.getArtistImage(artist.artistName).subscribe((img) => {
+          // Asignamos la imagen obtenida al objeto artista
           artist.image = img;
-          this.artists.set([...rawArtists]); // actualiza señal
+          // Actualizamos la señal para que Angular detecte el cambio y re-renderice los componentes
+          this.artists.set([...rawArtists]);
         });
       });
     });
@@ -144,7 +164,7 @@ export class MusicService {
           //aqui ya obtengo con los id las canciones
           const lookupUrl = `https://itunes.apple.com/lookup?id=${ids.join(',')}`;
           return this.http.get<any>(lookupUrl);
-        })
+        }),
       )
       .subscribe((response) => {
         this.tracks.set(response.results as Track[]);

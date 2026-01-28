@@ -1,12 +1,19 @@
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* =========================================
+   CARRUSEL - Contenedor principal
+========================================= */
 .carrusel {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 1rem 0;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-/* ===== BOTONES ===== */
+/* =========================================
+   CARRUSEL - Botones de navegación
+========================================= */
 .carrusel button {
   background: #1e1e1e;
   color: white;
@@ -16,25 +23,126 @@
   cursor: pointer;
   border-radius: 50%;
   transition: 0.2s;
+  flex-shrink: 0;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .carrusel button:hover {
   background: #333;
+  color: var(--accent);
 }
 
-/* ===== ZONA DE TARJETAS ===== */
+/* =========================================
+   CARRUSEL - Zona de tarjetas
+========================================= */
 .row {
   display: flex;
-  gap: 4rem;
-  overflow: hidden; /* clave del carrusel */
+  gap: 1rem;
+  overflow: hidden;
+  flex: 1 1 0%;
+  min-width: 0;
+  align-items: center;
 }
 
-/* ===== EFECTO GENERAL PARA LAS CARDS ===== */
-/* Se aplica a cualquier componente dentro */
+/* =========================================
+   CARRUSEL - Items individuales
+========================================= */
 .row > * {
   transition: transform 0.2s;
+  flex-shrink: 0;
+  min-width: 140px;
+  flex: 0 0 calc((100% - 4rem - 80px) / 5);
+  max-width: 220px;
 }
 
 .row > *:hover {
   transform: scale(1.05);
+}
+
+/* =========================================
+   RESPONSIVE: Tablets (768px - 1024px)
+========================================= */
+@media (max-width: 1024px) {
+  .carrusel {
+    gap: 0.4rem;
+  }
+
+  .carrusel button {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .row {
+    gap: 0.75rem;
+  }
+
+  .row > * {
+    flex: 0 0 calc((100% - 2.25rem - 80px) / 4);
+    min-width: 120px;
+    max-width: 200px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: Móviles (hasta 768px)
+========================================= */
+@media (max-width: 800px) {
+  .carrusel {
+    gap: 0.3rem;
+  }
+
+  .carrusel button {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.5rem;
+    min-width: 35px;
+    min-height: 35px;
+  }
+
+  .row {
+    gap: 0.5rem;
+  }
+
+  .row > * {
+    flex: 0 0 calc((100% - 1rem - 70px) / 3);
+    min-width: 90px;
+    max-width: 150px;
+  }
+
+  .row > *:hover {
+    transform: scale(1.02);
+  }
+}
+
+/* =========================================
+   RESPONSIVE: Móviles pequeños (hasta 480px)
+========================================= */
+@media (max-width: 48px) {
+  .carrusel {
+    gap: 0.25rem;
+  }
+
+  .carrusel button {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.4rem;
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .row {
+    gap: 0.4rem;
+  }
+
+  .row > * {
+    flex: 0 0 calc((100% - 0.4rem - 64px) / 2);
+    min-width: 80px;
+    max-width: 140px;
+  }
+
+  .row > *:hover {
+    transform: scale(1);
+  }
 }

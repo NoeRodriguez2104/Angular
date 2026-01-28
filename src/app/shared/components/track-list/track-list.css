@@ -1,12 +1,65 @@
+/* Título de la sección de canciones */
 .title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
+  color: var(--text);
 }
 
+/* =========================================
+   GRID MOSAICO - Desktop/Tablets
+========================================= */
 .track-list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
+  /* Grid responsivo con auto-fill y minmax para mosaico dinámico */
+  display: grid;
+  /* 4 columnas en desktop, mínimo 200px por item */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  /* Espacio entre items */
+  gap: 16px;
+  /* Alineación del grid */
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+/* =========================================
+   RESPONSIVE: Tablets (768px - 1024px)
+========================================= */
+@media (max-width: 1024px) {
+  .track-list {
+    /* 3 columnas en tablets */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: Móviles (hasta 768px)
+========================================= */
+@media (max-width: 768px) {
+  .track-list {
+    /* 2 columnas en móviles */
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: Móviles pequeños (hasta 480px)
+========================================= */
+@media (max-width: 480px) {
+  .track-list {
+    /* 2-1 columna en móviles muy pequeños */
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
 }

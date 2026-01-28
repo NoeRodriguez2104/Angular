@@ -1,7 +1,84 @@
+/* =========================================
+   PORTADA - Sección principal
+========================================= */
 .portada {
-  padding: 20px;
+  /* Layout flexible en columnas */
+  display: flex;
+  flex-direction: column;
+  /* Espacio entre secciones */
+  gap: 3rem;
+  /* Padding interno responsivo */
+  padding: var(--padding-vertical) var(--padding-horizontal);
+  width: 100%;
+  /* Ancho máximo para no estirarse demasiado */
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
+/* Cada sección (div que contiene h2 + carrusel) */
+.portada > div {
+  /* Flexbox para agrupar título y carrusel */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Títulos de secciones */
 .portada h2 {
-  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: var(--text);
+}
+
+/* =========================================
+   RESPONSIVE: Tablets (768px - 1024px)
+========================================= */
+@media (max-width: 1024px) {
+  .portada {
+    gap: 2.5rem;
+  }
+
+  .portada > div {
+    gap: 0.75rem;
+  }
+
+  .portada h2 {
+    font-size: 22px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: Móviles (hasta 768px)
+========================================= */
+@media (max-width: 768px) {
+  .portada {
+    gap: 2rem;
+  }
+
+  .portada > div {
+    gap: 0.75rem;
+  }
+
+  .portada h2 {
+    font-size: 20px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: Móviles pequeños (hasta 480px)
+========================================= */
+@media (max-width: 480px) {
+  .portada {
+    gap: 1.5rem;
+  }
+
+  .portada > div {
+    gap: 0.5rem;
+  }
+
+  .portada h2 {
+    font-size: 18px;
+  }
 }

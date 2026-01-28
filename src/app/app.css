@@ -1,61 +1,175 @@
+/* =========================================
+   VARIABLES CSS GLOBALES
+========================================= */
 :root {
+  /* Altura del navbar fijo */
   --header-h: 56px;
-  /*Altura del navbar fijo*/
+
+  /* Ancho de sidebar cuando está cerrado */
   --sb-collapsed: 76px;
-  /*ancho de sidebar cuando está cerrado*/
+
+  /* Color de fondo principal */
   --bg: #0f0f0f;
-  /*color de fondo*/
+
+  /* RESPONSIVE: Variables dinámicas */
+  --padding-horizontal: 40px;
+  --padding-vertical: 24px;
 }
 
+/* =========================================
+   ESTILOS BASE
+========================================= */
 html,
 body {
+  /* Ocupan toda la altura de la ventana */
   height: 100%;
-  /*ocupan toda la altura de la ventana*/
+  /* Color de fondo oscuro */
   background: var(--bg);
-  /**/
+  /* Color de texto */
   color: #151515;
+  /* Padding inferior para el player */
   padding-bottom: 300px;
+  /* Evita overflow horizontal en móviles */
+  overflow-x: hidden;
 }
 
-/*FOndo oscuro */
+/* Box-sizing para todos los elementos (incluye padding/border en width/height) */
 * {
   box-sizing: border-box;
 }
 
-/*Incluye padding/border del width/height*/
+/* =========================================
+   LAYOUT PRINCIPAL
+========================================= */
 
+/* Contenedor base */
 .shell {
   position: relative;
-  /*contenedor base que no es necesario usar*/
+  /* Deja hueco para el navbar fijo */
   padding-top: var(--header-h);
 }
 
-/*Dejar hueco para el navbar*/
-
-/* el contenido no se mueve cuando la sidebar se expande */
+/* Contenido principal - deja espacio para sidebar */
 .main {
+  /* Margen izquierdo para sidebar cerrada */
   margin-left: var(--sb-collapsed);
-  /* Deja hueco a la izquierda para sidebar cerrada*/
+  /* Altura = ventana completa menos navbar */
   height: calc(100vh - var(--header-h));
-  /*la altura es igual a la ventana menos la altura del navbar*/
+  /* Scroll interno si el contenido se desborda */
   overflow: auto;
-  /*si el contenido se pasa, hace scroll interno*/
-  padding: 24px 40px;
-  /*separación inferior*/
+  /* Padding interno usando variables CSS */
+  padding: var(--padding-vertical) var(--padding-horizontal);
+  /* Mantiene espacio reservado para scrollbar */
   scrollbar-gutter: stable both-edges;
-  /*mantiene sitio para hacer scroll cuando lo tenga que hgacer*/
 }
 
+/* =========================================
+   PLAYER FOOTER (siempre visible abajo)
+========================================= */
 .player-footer {
+  /* Posición fija en la parte inferior */
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  /* Quita márgenes */
+  /* z-index alto para estar sobre todo */
   z-index: 1000;
+  /* Fondo oscuro */
   background-color: #000000;
-  /* Fondo oscuro para la barra */
+  /* Borde superior */
   border-top: 10px solid #000000;
-  /* Borde superior sutil */
+  /* Padding interno */
   padding: 10px 10px;
+}
+
+/* =========================================
+   RESPONSIVE: TABLETS (768px - 1024px)
+========================================= */
+@media (max-width: 1024px) {
+  :root {
+    /* Reducir padding horizontal en tablets */
+    --padding-horizontal: 24px;
+    --padding-vertical: 20px;
+  }
+
+  .main {
+    /* Reducir padding en tablets */
+    padding: var(--padding-vertical) var(--padding-horizontal);
+  }
+
+  .player-footer {
+    /* Reducir padding del footer */
+    padding: 8px 8px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: MÓVILES (hasta 768px)
+========================================= */
+@media (max-width: 768px) {
+  :root {
+    /* Reducir padding en móviles */
+    --padding-horizontal: 16px;
+    --padding-vertical: 16px;
+    /* Navbar más pequeña en móviles */
+    --header-h: 50px;
+    /* Sidebar más estrecha */
+    --sb-collapsed: 60px;
+  }
+
+  html,
+  body {
+    /* Reducir padding inferior para player en móviles */
+    padding-bottom: 200px;
+  }
+
+  .main {
+    /* Sin margen izquierdo en móviles (sidebar oculta o superpuesta) */
+    margin-left: 0;
+    /* Ajustar altura con navbar más pequeña */
+    height: calc(100vh - var(--header-h));
+    /* Padding reducido */
+    padding: var(--padding-vertical) var(--padding-horizontal);
+  }
+
+  .player-footer {
+    /* Footer más compacto en móviles */
+    padding: 6px 8px;
+    /* Borde más fino */
+    border-top: 5px solid #000000;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: MÓVILES PEQUEÑOS (hasta 480px)
+========================================= */
+@media (max-width: 480px) {
+  :root {
+    /* Padding mínimo en móviles pequeños */
+    --padding-horizontal: 12px;
+    --padding-vertical: 12px;
+    /* Navbar aún más pequeña */
+    --header-h: 48px;
+    /* Sidebar muy estrecha */
+    --sb-collapsed: 50px;
+  }
+
+  html,
+  body {
+    /* Padding inferior mínimo para player */
+    padding-bottom: 150px;
+  }
+
+  .main {
+    /* Sin margen, sidebar oculta */
+    margin-left: 0;
+    /* Padding mínimo */
+    padding: var(--padding-vertical) var(--padding-horizontal);
+  }
+
+  .player-footer {
+    /* Footer compacto en móviles pequeños */
+    padding: 5px 6px;
+    border-top: 3px solid #000000;
+  }
 }

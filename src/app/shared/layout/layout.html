@@ -1,10 +1,13 @@
+<!-- Barra de navegación superior -->
 <app-nav-bar></app-nav-bar>
 
+<!-- Layout principal con CSS Grid -->
 <div class="layout">
+  <!-- Sidebar (navegación lateral) -->
   <app-side-bar></app-side-bar>
 
-  <div class="page">
+  <!-- Contenido principal de la página -->
+  <main class="page">
     <router-outlet></router-outlet>
-      
-  </div>
+  </main>
 </div>

@@ -1,5 +1,17 @@
-<article class="album-card" [routerLink]="['/albumDetail', album().collectionId]">
-  <img [src]="album().artworkUrl100" />
-  <h3>{{ album().collectionName }}</h3>
-  <p>{{ album().artistName }}</p>
+<article class="album-card">
+  <div class="album-header" [routerLink]="['/albumDetail', album().collectionId]">
+    <img [src]="album().artworkUrl100" />
+  </div>
+  <div class="album-info">
+    <h3>{{ album().collectionName }}</h3>
+    <p>{{ album().artistName }}</p>
+    <app-favorito-btn
+      (click)="$event.stopPropagation()"
+      [id]="album().collectionId"
+      [nombre]="album().collectionName"
+      [tipo]="'album'"
+      [imagen]="album().artworkUrl100"
+      [artista]="album().artistName"
+    ></app-favorito-btn>
+  </div>
 </article>

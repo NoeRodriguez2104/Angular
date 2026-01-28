@@ -5,9 +5,16 @@
     <span class="icon">*</span>
     <span class="label">Biblioteca</span>
   </div>
-  <div class="item" routerLink="#">
+  <div class="item" (mouseenter)="onMouseEnterPerfil()" (mouseleave)="onMouseLeavePerfil()">
     <span class="icon">*</span>
     <span class="label">Perfil</span>
+
+    @if (isPerfilMenuOpen) {
+      <div class="submenu">
+        <button routerLink="/perfil">Mi Perfil</button>
+        <button routerLink="/favoritos">Mis Favoritos</button>
+      </div>
+    }
   </div>
 
   <div class="item" (mouseenter)="onMouseEnterSearch()" (mouseleave)="onMouseLeaveSearch()">
@@ -15,11 +22,22 @@
     <span class="label">Buscar</span>
 
     @if (isSearchMenuOpen) {
-    <div class="submenu">
-      <button routerLink="/portada">Portada</button>
-      <button routerLink="/tracks">Canciones</button>
-      <button routerLink="/artists">Artistas</button>
-    </div>
+      <div class="submenu">
+        <button routerLink="/portada">Portada</button>
+        <button routerLink="/tracks">Canciones</button>
+        <button routerLink="/artists">Artistas</button>
+      </div>
+    }
+  </div>
+
+  <div class="item" (mouseenter)="onMouseEnterFavoritos()" (mouseleave)="onMouseLeaveFavoritos()">
+    <span class="icon">❤️</span>
+    <span class="label">Favoritos</span>
+
+    @if (isFavoritosMenuOpen) {
+      <div class="submenu">
+        <button routerLink="/perfil/favoritos">Mis Favoritos</button>
+      </div>
     }
   </div>
 </nav>

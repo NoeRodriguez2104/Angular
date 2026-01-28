@@ -12,26 +12,35 @@ import { AlbumComponent } from '../album/album';
   styleUrl: './carrusel.css',
 })
 export class CarruselComponent {
-  //recibe una lista cualquiera
+  // Input requerido: recibe una lista de items (pueden ser tracks, albums o artists)
   items = input.required<any[]>();
 
-  // el tipo de la lista
+  // Input requerido: especifica el tipo de item ('track' | 'album' | 'artist')
+  // Esto determina qué componente renderizar para cada item
   type = input.required<'track' | 'album' | 'artist'>();
 
-  itemsPerView = 5; //eligo numero de album en el carrusel
+  // Número de items a mostrar en cada "página" o vista del carrusel
+  itemsPerView = 5;
+
+  // Señal que mantiene la página actual del carrusel (comienza en 0)
   page = signal(0);
 
+  // Computed que calcula el número total de páginas basado en items y itemsPerView
   totalPages = computed(() => Math.ceil(this.items().length / this.itemsPerView));
 
+  // Computed que retorna solo los items visibles en la página actual
+  // Utiliza slice() para extraer los items desde start hasta start + itemsPerView
   visibleItems = computed(() => {
     const start = this.page() * this.itemsPerView;
     return this.items().slice(start, start + this.itemsPerView);
   });
 
+  // Método para avanzar a la siguiente página (si no estamos en la última)
   next() {
     if (this.page() < this.totalPages() - 1) this.page.update((p) => p + 1);
   }
 
+  // Método para retroceder a la página anterior (si no estamos en la primera)
   prev() {
     if (this.page() > 0) this.page.update((p) => p - 1);
   }

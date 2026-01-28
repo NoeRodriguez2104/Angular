@@ -1,0 +1,116 @@
+<div class="favoritos-container">
+  <div class="header-favoritos">
+    <h2>Mis Favoritos</h2>
+    <p class="total-favoritos">Total: {{ favoritos.length }} elementos</p>
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-icon"></span>
+      <span class="stat-number">{{ obtenerConteo().canciones }}</span>
+      <span class="stat-label">Canciones</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-icon"></span>
+      <span class="stat-number">{{ obtenerConteo().artistas }}</span>
+      <span class="stat-label">Artistas</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-icon"></span>
+      <span class="stat-number">{{ obtenerConteo().albumes }}</span>
+      <span class="stat-label">Álbumes</span>
+    </div>
+  </div>
+
+  <!-- Botones de filtro -->
+  <div class="filtros">
+    <button
+      (click)="setFiltro('todos')"
+      [class.activo]="filtroActivo === 'todos'"
+      class="btn-filtro"
+    >
+      Todos
+    </button>
+    <button
+      (click)="setFiltro('canciones')"
+      [class.activo]="filtroActivo === 'canciones'"
+      class="btn-filtro"
+    >
+      Canciones
+    </button>
+    <button
+      (click)="setFiltro('artistas')"
+      [class.activo]="filtroActivo === 'artistas'"
+      class="btn-filtro"
+    >
+      Artistas
+    </button>
+    <button
+      (click)="setFiltro('albumes')"
+      [class.activo]="filtroActivo === 'albumes'"
+      class="btn-filtro"
+    >
+      Álbumes
+    </button>
+  </div>
+
+  <!-- Lista de favoritos -->
+  @if (favoritosFiltrados.length > 0) {
+    <div class="lista-favoritos">
+      @for (item of favoritosFiltrados; track item.id; let i = $index) {
+        <div class="favorito-item">
+          <div class="item-numero">{{ i + 1 }}</div>
+
+          @if (item.imagen) {
+            <img [src]="item.imagen" [alt]="item.nombre" class="item-imagen" />
+          } @else {
+            <div class="item-imagen placeholder">
+              {{ obtenerIcono(item.tipo) }}
+            </div>
+          }
+
+          <div class="item-info">
+            <h3 class="item-nombre">{{ item.nombre }}</h3>
+            @if (item.artista) {
+              <p class="item-artista">{{ item.artista }}</p>
+            }
+            <p class="item-tipo">
+              {{
+                item.tipo === 'cancion'
+                  ? ' Canción'
+                  : item.tipo === 'artista'
+                    ? ' Artista'
+                    : ' Álbum'
+              }}
+            </p>
+          </div>
+
+          <button
+            (click)="eliminarFavorito(item)"
+            class="btn-eliminar"
+            title="Eliminar de favoritos"
+          >
+            ✕
+          </button>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="estado-vacio">
+      <div class="icono-vacio"></div>
+      <h3>Sin favoritos</h3>
+      <p>Aún no has añadido nada a favoritos.</p>
+      <p class="hint">
+        Haz clic en el corazón en cualquier canción, artista o álbum para añadirlo aquí.
+      </p>
+    </div>
+  }
+
+  <!-- Botón de limpiar -->
+  @if (favoritos.length > 0) {
+    <div class="acciones-finales">
+      <button (click)="limpiarTodos()" class="btn-limpiar">Limpiar todos los favoritos</button>
+    </div>
+  }
+</div>

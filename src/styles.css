@@ -1,28 +1,111 @@
-:root{
+/* =========================================
+   VARIABLES CSS GLOBALES
+========================================= */
+:root {
+  /* Altura del navbar */
   --header-h: 64px;
-  --sb-collapsed: 72px;   /* ancho lateral cerrada */
-  --sb-expanded: 300px;   /* ancho lateral abierta (solo hover, no empuja) */
 
-  --bg: #0f0f10;          /* fondo app */
-  --surface: #121212;     /* barras / superficies */
-  --card: #181818;        /* tarjetas */
+  /* Ancho sidebar cerrada/abierta */
+  --sb-collapsed: 72px;
+  --sb-expanded: 300px;
+
+  /* Colores del tema */
+  --bg: #0f0f10;
+  --surface: #121212;
+  --card: #181818;
   --border: #2a2a2a;
   --text: #e6e6e6;
   --muted: #a3a3a3;
   --base: #00b3ff;
   --accent: #00ffbf;
-  --nav-bar: #1e1e1e;     
+  --nav-bar: #1e1e1e;
+
+  /* RESPONSIVE: Padding dinámico */
+  --padding-horizontal: 40px;
+  --padding-vertical: 24px;
 }
 
-*{ box-sizing: border-box; }
-html, body{ height:100%; }
-body{
-  margin:0;
-  background: var(--bg);
+/* =========================================
+   ESTILOS BASE
+========================================= */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  /* Evita scroll horizontal en móviles */
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
   color: var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
 }
 
 /* Enlaces */
-a{ color: #a78bfa; text-decoration: none; }
-a:hover{ text-decoration: underline; }
+a {
+  color: #a78bfa;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   RESPONSIVE: TABLETS (768px - 1024px)
+========================================= */
+@media (max-width: 1024px) {
+  :root {
+    /* Reducir padding en tablets */
+    --padding-horizontal: 24px;
+    --padding-vertical: 20px;
+    /* Sidebar más compacta */
+    --sb-collapsed: 64px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: MÓVILES (hasta 768px)
+========================================= */
+@media (max-width: 768px) {
+  :root {
+    /* Padding reducido en móviles */
+    --padding-horizontal: 16px;
+    --padding-vertical: 16px;
+    /* Navbar más pequeña */
+    --header-h: 56px;
+    /* Sidebar más estrecha */
+    --sb-collapsed: 60px;
+    --sb-expanded: 250px;
+  }
+
+  body {
+    /* Evitar overflow en móviles */
+    overflow-x: hidden;
+  }
+}
+
+/* =========================================
+   RESPONSIVE: MÓVILES PEQUEÑOS (hasta 480px)
+========================================= */
+@media (max-width: 480px) {
+  :root {
+    /* Padding mínimo */
+    --padding-horizontal: 12px;
+    --padding-vertical: 12px;
+    /* Todo más compacto */
+    --header-h: 52px;
+    --sb-collapsed: 50px;
+    --sb-expanded: 220px;
+  }
+}
